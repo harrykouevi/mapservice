@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mapservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - ./app:/app/app
+    container_name: map_service_container
+   
+    ports:
+      - "8000:80"
+
+    networks:
+      - default
+      
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=app.settings
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: >
+      sh -c "test -f manage.py && python manage.py runserver 0.0.0.0:80 || django-admin startproject app . && python manage.py runserver 0.0.0.0:80"
+
+networks:
+  default:
+    external: true
+    name: shared-net  
