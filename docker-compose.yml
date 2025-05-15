@@ -11,7 +11,7 @@ services:
     container_name: map_service_container
    
     ports:
-      - "8000:80"
+      - "8003:80"
 
     networks:
       - default
