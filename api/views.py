@@ -269,14 +269,14 @@ def map_with_road_issues_around(request):
   
     # Récupération de tous les incidents routiers a proximité d'un point
     try:
-        # auth_header = request.headers.get('Authorization')
-        # token = auth_header.split(' ')[1]
+        auth_header = request.headers.get('Authorization')
+        token = auth_header.split(' ')[1]
 
-        # # Préparer l'en-tête pour la requête vers l'API ORS
-        # headers = {
-        #     "Authorization": f"Bearer {token}",
-        #     "Accept": "application/json"
-        # }
+        # Préparer l'en-tête pour la requête vers l'API ORS
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/json"
+        }
         # Appeler le microservice ORS via HTTP
         params = {
             'lat': lat,
@@ -284,7 +284,7 @@ def map_with_road_issues_around(request):
             'radius': radius 
         }   
         print("Réponse ORS fhtjkyoyiytioyuopuouyity:")
-        response = requests.get('http://orsservice:80/api/v1/road-issues', params=params, headers={}) 
+        response = requests.get('http://orsservice:80/api/v1/road-issues', params=params, headers = headers) 
         
           # Debug : affiche la réponse JSON dans les logs
         print("Réponse ORS :", response.json())

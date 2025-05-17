@@ -7,7 +7,7 @@ class BearerTokenMiddleware:
         self.get_response = get_response
         # Liste des noms de vues protégées (définis dans urls.py)
         self.protected_views = [
-            # "map_with_road_issues_around",
+            "map_with_road_issues_around",
            
             # etc.
         ]
@@ -21,12 +21,12 @@ class BearerTokenMiddleware:
 
         if resolved_view.url_name in self.protected_views:
             auth_header = request.headers.get('Authorization')
-
-            if not auth_header or not auth_header.startswith('Bearer '):
+            
+            if not auth_header or not auth_header.strip().startswith('Bearer '):
                 return JsonResponse({'detail': 'Token manquant ou invalide.'}, status=401)
 
             token = auth_header.split(' ')[1]
-
+            print(f"[{token}]")
             try:
                 # Requête vers le microservice pour vérifier le token
                 response = requests.get(
