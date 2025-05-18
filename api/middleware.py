@@ -8,7 +8,7 @@ class BearerTokenMiddleware:
         # Liste des noms de vues protégées (définis dans urls.py)
         self.protected_views = [
             "map_with_road_issues_around",
-           
+            "map_direction",
             # etc.
         ]
 
@@ -24,7 +24,7 @@ class BearerTokenMiddleware:
             
             if not auth_header or not auth_header.strip().startswith('Bearer '):
                 return JsonResponse({'detail': 'Token manquant ou invalide.'}, status=401)
-
+            print("fbfhhhrhr")
             token = auth_header.split(' ')[1]
             print(f"[{token}]")
             try:

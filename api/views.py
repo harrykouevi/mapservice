@@ -159,10 +159,8 @@ def map_direction(request):
 
     PALETTE = [
         "#FF0000",  # Rouge
-        "#00FF00",  # Vert
+        "#150B73",  # bleu1
         "#0000FF",  # Bleu
-        "#FFFF00",  # Jaune
-        "#FFA500",  # Orange
         "#FF00FF",  # Magenta (ou Fuchsia)
         "#800080",  # Violet
     ]
@@ -171,13 +169,22 @@ def map_direction(request):
     try:
         # Appeler le microservice ORS via HTTP
         ors_service_url = 'http://orsservice:80/api/v1/directions'  # URL interne de ton microservice ORS
+        auth_header = request.headers.get('Authorization')
+        token = auth_header.split(' ')[1]
+
+        # Préparer l'en-tête pour la requête vers l'API ORS
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/json"
+        }
+        
         params = {
             'start': coord_start,
             'end': coord_end,
             'alternatives': 3
         }
 
-        response = requests.get(ors_service_url, params=params)
+        response = requests.get(ors_service_url, params=params ,headers = headers)
         routes = response.json()['routes']
         # Recuperer les coordonnées de la zone (polygone) à éviter
         avoid_zones = response.json()['avoid_polygons']
